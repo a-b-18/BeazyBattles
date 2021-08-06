@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\icons\archer.png" />
+    <None Include="wwwroot\icons\axe.png" />
+    <None Include="wwwroot\icons\banana.png" />
+    <None Include="wwwroot\icons\knight.png" />
+    <None Include="wwwroot\icons\mage.png" />
+  </ItemGroup>
+
+    <ItemGroup>
+	    <!-- extends watching group to include *.js files -->
+	    <Watch Include="*" />
+    </ItemGroup>
+	
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.8" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
