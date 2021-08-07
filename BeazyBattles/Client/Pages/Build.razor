@@ -2,6 +2,7 @@
 @inject IBananaService BananaService
 @inject IUnitService UnitService
 @inject IToastService ToastService
+@attribute [Authorize]
 
 <h3>Build</h3>
 
@@ -14,12 +15,15 @@
     </select>
 </div>
 
-<button class="btn btn-primary" @onclick="BuildUnit">Build</button>
+<button class="btn btn-primary" @onclick="BuildUnit">
+    <span style="padding-right: 5px">Build @UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).Title</span>
+    <img src=@UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).IconPath />
+</button>
 
 @if(needMoreBananas)
 {
     <div class="validation-message">
-        Not Enough Bananas! :(
+        More bananas required.
     </div>
 }
 
@@ -34,7 +38,7 @@
         if (BananaService.Bananas < selectedUnit.BananaCost)
         {
             needMoreBananas = true;
-            ToastService.ShowError("Not enough bananas!", ":(");
+            ToastService.ShowError($"You will need to save more bananas to purchase the {selectedUnit.Title}.", "Need more bananas");
             return;
         }
 
