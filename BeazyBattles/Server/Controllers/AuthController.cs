@@ -23,12 +23,27 @@ namespace BeazyBattles.Server.Controllers
         public async Task<IActionResult> Register(UserRegister request)
         {
             var response = await _authRepo.Register(
-                new User {
+                new User
+                {
                     Username = request.Username,
                     Email = request.Email,
                     DateOfBirth = request.DateOfBirth,
                     IsConfirmed = request.IsConfirmed
                 }, request.Password);
+
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLogin request)
+        {
+            var response = await _authRepo.Login(
+                    request.Username, request.Password);
 
             if (!response.Success)
             {
