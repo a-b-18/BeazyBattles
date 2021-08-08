@@ -43,7 +43,7 @@ namespace BeazyBattles.Server.Controllers
         public async Task<IActionResult> Login(UserLogin request)
         {
             var response = await _authRepo.Login(
-                    request.Username, request.Password);
+                    request.Email, request.Password);
 
             if (!response.Success)
             {

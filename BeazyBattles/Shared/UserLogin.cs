@@ -9,8 +9,8 @@ namespace BeazyBattles.Shared
 {
     public class UserLogin
     {
-        [Required(ErrorMessage = "Please enter a valid username.")]
-        public string Username { get; set; }
+        [Required(ErrorMessage = "Please enter a valid email.")]
+        public string Email { get; set; }
         [Required]
         public string Password { get; set; }
     }
