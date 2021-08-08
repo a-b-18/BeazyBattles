@@ -15,12 +15,15 @@
     </select>
 </div>
 
-<button class="btn btn-primary" @onclick="BuildUnit">
-    <span style="padding-right: 5px">Build @UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).Title</span>
-    <img src=@UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).IconPath />
-</button>
+@if (apiLoaded)
+{
+    <button class="btn btn-primary" @onclick="BuildUnit">
+        <span style="padding-right: 5px">Build @UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).Title</span>
+        <img src=@UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId).IconPath />
+    </button>
+}
 
-@if(needMoreBananas)
+@if (needMoreBananas)
 {
     <div class="validation-message">
         More bananas required.
@@ -30,6 +33,13 @@
 @code {
     int selectedUnitId = 1;
     bool needMoreBananas = false;
+
+    bool apiLoaded = false;
+    protected override async Task OnInitializedAsync()
+    {
+        await UnitService.LoadUnitsAsync();
+        apiLoaded = true;
+    }
 
     private void BuildUnit()
     {
@@ -41,6 +51,8 @@
             ToastService.ShowError($"You will need to save more bananas to purchase the {selectedUnit.Title}.", "Need more bananas");
             return;
         }
+
+        needMoreBananas = false;
 
         BananaService.EatBananas(selectedUnit.BananaCost);
         UnitService.AddUnit(selectedUnitId);

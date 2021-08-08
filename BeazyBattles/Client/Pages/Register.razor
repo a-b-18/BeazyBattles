@@ -55,6 +55,13 @@
 @code {
     UserRegister user = new UserRegister();
 
+    bool apiLoaded = false;
+    protected override async Task OnInitializedAsync()
+    {
+        await UnitService.LoadUnitsAsync();
+        apiLoaded = true;
+    }
+
     void HandleRegistration()
     {
         //Console.WriteLine("Stroe this new user in the database!");
