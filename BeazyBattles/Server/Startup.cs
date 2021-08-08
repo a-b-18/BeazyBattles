@@ -30,6 +30,7 @@ namespace BeazyBattles.Server
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             //services.AddBlazoredToast();
         }
 
