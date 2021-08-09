@@ -14,10 +14,6 @@ RUN dotnet restore "BeazyBattles/Server/BeazyBattles.Server.csproj"
 COPY . .
 WORKDIR "/src/BeazyBattles/Server"
 RUN dotnet build "BeazyBattles.Server.csproj" -c Release -o /app/build
-#RUN dotnet tool install --global dotnet-ef
-#CMD ["dotnet", "ef", "--project", "../Persistence", "database", "update"]
-#RUN dotnet ef migrations add latest
-#RUN dotnet ef database update
 
 FROM build AS publish
 RUN dotnet publish "BeazyBattles.Server.csproj" -c Release -o /app/publish
