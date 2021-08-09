@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeazyBattles.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210808051028_UserModel")]
-    partial class UserModel
+    [Migration("20210809103633_latest")]
+    partial class latest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

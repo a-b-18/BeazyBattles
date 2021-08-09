@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E7A5D7B2-B734-49ED-821A-7E8D1A92DE28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{067FDD3D-3D04-4FD8-8D25-19BE49E10012}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{067FDD3D-3D04-4FD8-8D25-19BE49E10012}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{067FDD3D-3D04-4FD8-8D25-19BE49E10012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A5D7B2-B734-49ED-821A-7E8D1A92DE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A5D7B2-B734-49ED-821A-7E8D1A92DE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A5D7B2-B734-49ED-821A-7E8D1A92DE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A5D7B2-B734-49ED-821A-7E8D1A92DE28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
