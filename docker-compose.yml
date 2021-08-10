@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
     beazybattles.server:
-        image: alex2222/beazybattlesserver
+        image: alex2222/beazybattles
         build:
             context: .
             dockerfile: BeazyBattles/Server/Dockerfile
