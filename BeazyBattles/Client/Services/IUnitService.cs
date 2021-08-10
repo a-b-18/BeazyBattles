@@ -13,5 +13,6 @@ namespace BeazyBattles.Client.Services
 
         Task AddUnit(int unitId);
         Task LoadUnitsAsync();
+        Task LoadUserUnitsAsync();
     }
 }
