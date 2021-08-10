@@ -1,8 +1,10 @@
 using BeazyBattles.Server.Data;
+using BeazyBattles.Server.Services;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +47,8 @@ namespace BeazyBattles.Server
                         ValidateAudience = false
                     };
                 });
-            //services.AddBlazoredToast();
+            services.AddScoped<IUtilityService, UtilityService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
