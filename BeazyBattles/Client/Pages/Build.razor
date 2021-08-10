@@ -41,20 +41,8 @@
         apiLoaded = true;
     }
 
-    private void BuildUnit()
+    private async Task BuildUnit()
     {
-        var selectedUnit = UnitService.Units.FirstOrDefault(unit => unit.Id == selectedUnitId);
-
-        if (BananaService.Bananas < selectedUnit.BananaCost)
-        {
-            needMoreBananas = true;
-            ToastService.ShowError($"You will need to save more bananas to purchase the {selectedUnit.Title}.", "Need more bananas");
-            return;
-        }
-
-        needMoreBananas = false;
-
-        BananaService.EatBananas(selectedUnit.BananaCost);
-        UnitService.AddUnit(selectedUnitId);
+        await UnitService.AddUnit(selectedUnitId);
     }
 }
