@@ -7,6 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
+EXPOSE 443
+EXPOSE 80
 COPY ["BeazyBattles/Server/BeazyBattles.Server.csproj", "BeazyBattles/Server/"]
 COPY ["BeazyBattles/Shared/BeazyBattles.Shared.csproj", "BeazyBattles/Shared/"]
 COPY ["BeazyBattles/Client/BeazyBattles.Client.csproj", "BeazyBattles/Client/"]
