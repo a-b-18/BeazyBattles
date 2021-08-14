@@ -48,7 +48,7 @@ namespace BeazyBattles.Server.Controllers
                 if (userUnit.HitPoints <= 0)
                 {
                     armyStillAlive = false;
-                    userUnit.HitPoints = new Random().Next(30, userUnit.Unit.HitPoints);
+                    userUnit.HitPoints = new Random().Next(1, userUnit.Unit.HitPoints);
                 }
             }
 
