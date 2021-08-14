@@ -67,9 +67,15 @@ namespace BeazyBattles.Server.Controllers
         {
             var unit = await _context.Units.FirstOrDefaultAsync<Unit>(u => u.Id == unitId);
             var user = await _utilityService.GetUser();
-            if(user.Bananas < unit.BananaCost)
+            var unitCount = await _context.UserUnits.CountAsync<UserUnit>(u => u.UserId == user.Id);
+            if (user.Bananas < unit.BananaCost)
             {
                 return BadRequest("Need more bananas.");
+            }
+
+            if (unitCount > 10)
+            {
+                return BadRequest($"You have {unitCount} units already! You will need some to retire before building more.");
             }
 
             user.Bananas -= unit.BananaCost;
@@ -101,5 +107,6 @@ namespace BeazyBattles.Server.Controllers
 
             return Ok(response);
         }
+
     }
 }
