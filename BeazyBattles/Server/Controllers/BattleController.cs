@@ -130,7 +130,21 @@ namespace BeazyBattles.Server.Controllers
                 opponent.Bananas += attackerDamageSum;
             }
 
+            StoreBattleHistory(attacker, opponent, result);
+
             await _context.SaveChangesAsync();
+        }
+
+        private void StoreBattleHistory(User attacker, User opponent, BattleResult result)
+        {
+            var battle = new Battle();
+            battle.Attacker = attacker;
+            battle.Opponent = opponent;
+            battle.RoundsFought = result.RoundsFought;
+            battle.WinnerDamage = result.IsVictory ? result.AttackerDamageSum : result.OpponentDamageSum;
+            battle.Winner = result.IsVictory ? attacker : opponent;
+
+            _context.Battles.Add(battle);
         }
     }
 }

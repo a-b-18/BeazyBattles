@@ -29,7 +29,9 @@ namespace BeazyBattles.Server.Controllers
                     Email = request.Email,
                     DateOfBirth = request.DateOfBirth,
                     IsConfirmed = request.IsConfirmed
-                }, request.Password);
+                }, 
+                request.Password,
+                request.StartUnitId);
 
             if (!response.Success)
             {
