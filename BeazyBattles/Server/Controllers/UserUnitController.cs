@@ -61,13 +61,13 @@ namespace BeazyBattles.Server.Controllers
             }
 
             if (armyStillAlive)
-                return Ok("None of your army has died and is in no need of revival.");
+                return BadRequest("There is no need of revival. None of your army has died.");
 
             user.Bananas -= bananaCost;
 
             await _context.SaveChangesAsync();
 
-            return Ok("Army revived successfully!");
+            return Ok($"Army revived successfully for {bananaCost} bananas!");
         }
 
         [HttpPost]
@@ -82,9 +82,9 @@ namespace BeazyBattles.Server.Controllers
                 return BadRequest("Need more bananas.");
             }
 
-            if (unitCount > 10)
+            if (unitCount >= 10)
             {
-                return BadRequest($"You have {unitCount} units already! You will need some to retire before building more.");
+                return BadRequest($"You have {unitCount} units already! Have some die fighting before building more.");
             }
 
             user.Bananas -= unit.BananaCost;
@@ -145,13 +145,13 @@ namespace BeazyBattles.Server.Controllers
             }
 
             if (armyStillAlive)
-                return Ok("None of your army has died and no burial is required.");
+                return BadRequest("No burial is required. None of your army has died.");
 
             user.Bananas -= bananaCost;
 
             await _context.SaveChangesAsync();
 
-            return Ok("Dead buried successfully!");
+            return Ok("You successfully buried your dead.");
         }
 
     }

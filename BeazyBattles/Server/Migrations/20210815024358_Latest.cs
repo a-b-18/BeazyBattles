@@ -23,7 +23,7 @@ namespace BeazyBattles.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Units", x => x.Id);
-            });
+                });
 
             migrationBuilder.InsertData(
                 table: "Units",
@@ -31,10 +31,52 @@ namespace BeazyBattles.Server.Migrations
                 values: new[]
                 {
                     "1",
+                    "Dog" ,
+                    "100" ,
+                    "1" ,
+                    "5" ,
+                    "10" ,
+                    "icons/dog.png" ,
+                });
+
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "2",
+                    "Honey Badger" ,
+                    "100" ,
+                    "1" ,
+                    "5" ,
+                    "10" ,
+                    "icons/honey_badger.png" ,
+                });
+
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "3",
+                    "Monkey" ,
+                    "100" ,
+                    "1" ,
+                    "5" ,
+                    "10" ,
+                    "icons/monkey.png" ,
+                });
+
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "4",
                     "Knight" ,
                     "10" ,
                     "20" ,
-                    "100" ,
+                    "50" ,
                     "100" ,
                     "icons/knight.png" ,
             });
@@ -43,12 +85,12 @@ namespace BeazyBattles.Server.Migrations
                 columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
                 values: new[]
                 {
-                    "2",
+                    "5",
                     "Archer" ,
                     "15" ,
                     "10" ,
                     "100" ,
-                    "150" ,
+                    "1000" ,
                     "icons/archer.png" ,
             });
             migrationBuilder.InsertData(
@@ -56,12 +98,12 @@ namespace BeazyBattles.Server.Migrations
                 columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
                 values: new[]
                 {
-                    "3",
+                    "6",
                     "Mage" ,
-                    "20" ,
+                    "50" ,
                     "5" ,
                     "100" ,
-                    "200" ,
+                    "2000" ,
                     "icons/mage.png" ,
             });
             migrationBuilder.InsertData(
@@ -69,12 +111,12 @@ namespace BeazyBattles.Server.Migrations
                 columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
                 values: new[]
                 {
-                    "4",
+                    "7",
                     "Barbarian" ,
                     "30" ,
                     "20" ,
-                    "100" ,
-                    "300" ,
+                    "150" ,
+                    "5000" ,
                     "icons/barbarian.png" ,
                 });
             migrationBuilder.InsertData(
@@ -82,13 +124,66 @@ namespace BeazyBattles.Server.Migrations
                 columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
                 values: new[]
                 {
-                    "5",
-                    "Monkey" ,
-                    "100" ,
-                    "1" ,
-                    "5" ,
+                    "8",
+                    "Ogre" ,
+                    "50" ,
+                    "0" ,
+                    "500" ,
+                    "100000" ,
+                    "icons/ogre.png" ,
+                });
+
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "9",
+                    "Ninja" ,
                     "200" ,
-                    "icons/monkey.png" ,
+                    "70" ,
+                    "350" ,
+                    "150000" ,
+                    "icons/ninja.png" ,
+            });
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "10",
+                    "Giant" ,
+                    "100" ,
+                    "50" ,
+                    "1000" ,
+                    "200000" ,
+                    "icons/giant.png" ,
+            });
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "11",
+                    "Fallen Hero" ,
+                    "350" ,
+                    "100" ,
+                    "3500" ,
+                    "800000" ,
+                    "icons/fallen_hero.png" ,
+            });
+            migrationBuilder.InsertData(
+                table: "Units",
+                columns: new[] { "Id", "Title", "Attack", "Defense", "HitPoints", "BananaCost", "IconPath" },
+                values: new[]
+                {
+                    "12",
+                    "Dragon" ,
+                    "500" ,
+                    "0" ,
+                    "5000" ,
+                    "1000000" ,
+                    "icons/dragon.png" ,
                 });
 
             migrationBuilder.CreateTable(
