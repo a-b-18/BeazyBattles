@@ -68,6 +68,7 @@ namespace BeazyBattles.Server.Controllers
             var unit = await _context.Units.FirstOrDefaultAsync<Unit>(u => u.Id == unitId);
             var user = await _utilityService.GetUser();
             var unitCount = await _context.UserUnits.CountAsync<UserUnit>(u => u.UserId == user.Id);
+
             if (user.Bananas < unit.BananaCost)
             {
                 return BadRequest("Need more bananas.");
@@ -106,6 +107,43 @@ namespace BeazyBattles.Server.Controllers
                 });
 
             return Ok(response);
+        }
+
+        [HttpPost("bury")]
+        public async Task<IActionResult> BuryArmy()
+        {
+            var user = await _utilityService.GetUser();
+            var userUnits = await _context.UserUnits
+                .Where(unit => unit.UserId == user.Id)
+                .Include(unit => unit.Unit)
+                .ToListAsync();
+
+            int bananaCost = 0;
+
+            if (user.Bananas < bananaCost)
+            {
+                return BadRequest("Not enough bananas! You need 1000 bananas to revive your army.");
+            }
+
+            bool armyStillAlive = true;
+            foreach (var userUnit in userUnits)
+            {
+                if (userUnit.HitPoints <= 0)
+                {
+                    armyStillAlive = false;
+                    _context.UserUnits.Remove(userUnit);
+                    _context.SaveChanges();
+                }
+            }
+
+            if (armyStillAlive)
+                return Ok("None of your army has died and no burial is required.");
+
+            user.Bananas -= bananaCost;
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Dead buried successfully!");
         }
 
     }

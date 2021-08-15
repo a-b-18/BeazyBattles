@@ -64,5 +64,16 @@ namespace BeazyBattles.Client.Services
             await LoadUserUnitsAsync();
             await _bananaService.GetBananas();
         }
+        public async Task BuryArmy()
+        {
+            var result = await _http.PostAsJsonAsync<string>("api/userunit/bury", null);
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                _toastService.ShowSuccess(await result.Content.ReadAsStringAsync());
+            else
+                _toastService.ShowError(await result.Content.ReadAsStringAsync());
+
+            await LoadUserUnitsAsync();
+            await _bananaService.GetBananas();
+        }
     }
 }

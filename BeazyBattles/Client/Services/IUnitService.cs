@@ -15,5 +15,6 @@ namespace BeazyBattles.Client.Services
         Task LoadUnitsAsync();
         Task LoadUserUnitsAsync();
         Task ReviveArmy();
+        Task BuryArmy();
     }
 }

@@ -28,6 +28,7 @@
     </table>
     <center>
         <button class="btn btn-warning" @onclick="ReviveArmy">Revive Army (1000 Bananas)</button>
+        <button class="btn btn-warning" @onclick="BuryArmy">Bury Army</button>
     </center>
 }
 else {
@@ -46,5 +47,10 @@ else {
     private async Task ReviveArmy()
     {
         await UnitService.ReviveArmy();
+    }
+
+    private async Task BuryArmy()
+    {
+        await UnitService.BuryArmy();
     }
 }
