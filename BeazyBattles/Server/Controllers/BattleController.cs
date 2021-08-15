@@ -121,6 +121,7 @@ namespace BeazyBattles.Server.Controllers
                 opponent.Defeats++;
                 attacker.Bananas += attackerDamageSum * 2;
                 opponent.Bananas += attackerDamageSum * 3;
+                opponent.Alive = false;
             }
             else
             {
@@ -128,6 +129,7 @@ namespace BeazyBattles.Server.Controllers
                 opponent.Victories++;
                 attacker.Bananas += opponentDamageSum * 3;
                 opponent.Bananas += opponentDamageSum * 2;
+                attacker.Alive = false;
             }
 
             StoreBattleHistory(attacker, opponent, result);

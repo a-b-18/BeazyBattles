@@ -14,5 +14,6 @@ namespace BeazyBattles.Shared
         public int Battles { get; set; }
         public int Victories { get; set; }
         public int Defeats { get; set; }
+        public bool Alive { get; set; } = true;
     }
 }

@@ -55,6 +55,7 @@ namespace BeazyBattles.Server.Data
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Alive = true;
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -127,6 +128,7 @@ namespace BeazyBattles.Server.Data
                 UserId = user.Id,
                 HitPoints = unit.HitPoints
             });
+
             await _context.SaveChangesAsync();
         }
     }

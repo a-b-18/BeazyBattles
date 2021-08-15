@@ -203,7 +203,8 @@ namespace BeazyBattles.Server.Migrations
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Battles = table.Column<int>(type: "int", nullable: false),
                     Victories = table.Column<int>(type: "int", nullable: false),
-                    Defeats = table.Column<int>(type: "int", nullable: false)
+                    Defeats = table.Column<int>(type: "int", nullable: false),
+                    Alive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

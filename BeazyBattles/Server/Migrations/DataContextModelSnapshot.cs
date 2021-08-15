@@ -92,6 +92,9 @@ namespace BeazyBattles.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Alive")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Bananas")
                         .HasColumnType("int");
 

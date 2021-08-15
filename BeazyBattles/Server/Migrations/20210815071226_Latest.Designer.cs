@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeazyBattles.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210815024358_Latest")]
+    [Migration("20210815071226_Latest")]
     partial class Latest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,6 +93,9 @@ namespace BeazyBattles.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Alive")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Bananas")
                         .HasColumnType("int");

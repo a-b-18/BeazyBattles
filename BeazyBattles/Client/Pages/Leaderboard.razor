@@ -37,7 +37,15 @@ else
                     <td>
                         @if (entry.UserId != myUserId)
                         {
-                            <button class="btn btn-primary" @onclick="() => StartBattle(entry.UserId)">Fight</button>
+                            @if (entry.Alive)
+                            {
+                                <button class="btn btn-primary" @onclick="() => StartBattle(entry.UserId)">Fight</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" @onclick="() => OpponentDefeated(entry.UserId)">Defeated</button>
+                            }
+                            
                         }
                     </td>
                 </tr>
@@ -47,7 +55,7 @@ else
 }
 
 @code { 
-    int myUserId;
+        int myUserId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,15 +78,20 @@ else
         Console.WriteLine($"StartBattle with {opponentId}.");
         var result = await BattleService.StartBattle(opponentId);
         if (result.RoundsFought <= 0)
-            ToastService.ShowInfo("The battle did not take place.");
+            ToastService.ShowInfo("Your army has been defeated. Rebuild or revive to fight again.", "Army Defeated");
         else if (result.IsVictory)
-            ToastService.ShowSuccess("You won the battle!");
+            ToastService.ShowSuccess("You won the battle!", "Victory");
         else
-            ToastService.ShowWarning("Your army was defeated!");
+            ToastService.ShowWarning("Your army was defeated!", "Defeat");
 
         await LeaderboardService.GetLeaderboard();
         await BananaService.GetBananas();
         if (result.RoundsFought > 0)
             NavigationManager.NavigateTo("battlelog");
+    }
+
+    public async Task OpponentDefeated(int opponentId)
+    {
+        ToastService.ShowInfo("This opponent has been defeated. You must wait until they recover.", "Missing Opponent");
     }
 }

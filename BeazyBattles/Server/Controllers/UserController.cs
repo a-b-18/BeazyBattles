@@ -63,7 +63,8 @@ namespace BeazyBattles.Server.Controllers
                 Username = user.Username,
                 Battles = user.Battles,
                 Victories = user.Victories,
-                Defeats = user.Defeats
+                Defeats = user.Defeats,
+                Alive = user.Alive
             });
 
             return Ok(response);

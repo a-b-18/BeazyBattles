@@ -63,9 +63,10 @@ namespace BeazyBattles.Server.Controllers
             if (armyStillAlive)
                 return BadRequest("There is no need of revival. None of your army has died.");
 
-            user.Bananas -= bananaCost;
-
             await _context.SaveChangesAsync();
+
+            user.Bananas -= bananaCost;
+            user.Alive = true;
 
             return Ok($"Army revived successfully for {bananaCost} bananas!");
         }
@@ -87,8 +88,6 @@ namespace BeazyBattles.Server.Controllers
                 return BadRequest($"You have {unitCount} units already! Have some die fighting before building more.");
             }
 
-            user.Bananas -= unit.BananaCost;
-
             var newUserUnit = new UserUnit
             {
                 UnitId = unit.Id,
@@ -96,8 +95,12 @@ namespace BeazyBattles.Server.Controllers
                 HitPoints = unit.HitPoints
             };
 
+            user.Bananas -= unit.BananaCost;
+            user.Alive = true;
+
             _context.UserUnits.Add(newUserUnit);
             await _context.SaveChangesAsync();
+
             return Ok(newUserUnit);
         }
 
