@@ -36,7 +36,10 @@
         <InputRadioGroup id="startUnit" @bind-Value="user.StartUnitId" class="form-control">
             @foreach (var unit in UnitService.Units)
             {
+                @if (unit.Id <= 3)
+                {
                 <InputRadio Value="@unit.Id" /><span style="padding-left: 5px; padding-right: 5px">@unit.Title</span><img src=@unit.IconPath /><br />
+                }
             }
         </InputRadioGroup>
     </div>

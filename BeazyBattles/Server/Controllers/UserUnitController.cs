@@ -35,11 +35,18 @@ namespace BeazyBattles.Server.Controllers
                 .Include(unit => unit.Unit)
                 .ToListAsync();
 
-            int bananaCost = 1000;
+            int bananaCost = 0;
+            foreach (var userUnit in userUnits)
+            {
+                if (userUnit.HitPoints <= 0)
+                {
+                    bananaCost += Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2));
+                }
+            }
 
             if (user.Bananas < bananaCost)
             {
-                return BadRequest("Not enough bananas! You need 1000 bananas to revive your army.");
+                return BadRequest($"Not enough bananas! You need {bananaCost} bananas to revive your army.");
             }
 
             bool armyStillAlive = true;
@@ -47,6 +54,7 @@ namespace BeazyBattles.Server.Controllers
             {
                 if (userUnit.HitPoints <= 0)
                 {
+                    bananaCost += Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2));
                     armyStillAlive = false;
                     userUnit.HitPoints = new Random().Next(1, userUnit.Unit.HitPoints);
                 }

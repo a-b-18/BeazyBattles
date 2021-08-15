@@ -119,15 +119,15 @@ namespace BeazyBattles.Server.Controllers
             {
                 attacker.Victories++;
                 opponent.Defeats++;
-                attacker.Bananas += opponentDamageSum;
-                opponent.Bananas += attackerDamageSum * 10;
+                attacker.Bananas += attackerDamageSum * 2;
+                opponent.Bananas += attackerDamageSum * 3;
             }
             else
             {
                 attacker.Defeats++;
                 opponent.Victories++;
-                attacker.Bananas += opponentDamageSum * 10;
-                opponent.Bananas += attackerDamageSum;
+                attacker.Bananas += opponentDamageSum * 3;
+                opponent.Bananas += opponentDamageSum * 2;
             }
 
             StoreBattleHistory(attacker, opponent, result);
