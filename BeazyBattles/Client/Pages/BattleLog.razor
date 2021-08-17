@@ -6,16 +6,26 @@
 <ul class="list-group">
     @foreach (var round in BattleService.LastBattle.Log)
     {
-        <li class="@GetClass(round)">@round</li>
+        <li class="list-group-item" style="@GetClass(round)">@round</li>
     }
 </ul>
 
 @code {
     string GetClass(string round)
     {
-        if (round.Contains("kills"))
-            return "list-group-item list-group-item-danger";
-        else
-            return "list-group-item";
+        string style = "";
+        if (round.Contains("killed"))
+            return style += "background-color:lightpink;";
+        if (round.Contains("Uncommon"))
+            return style += "background-color:aquamarine;";
+        if (round.Contains("Rare"))
+            return style += "color: black; background-color: lightskyblue; font-weight:600;";
+        if (round.Contains("Epic"))
+            return style += "color: white; background-color:darkmagenta; font-weight:700;";
+        if (round.Contains("Legendary"))
+            return style += "color:orange; background-color:yellow; font-weight:800;";
+        if (round.Contains("ended"))
+            return style += "background-color:lightblue;";
+        return style;
     }
 }

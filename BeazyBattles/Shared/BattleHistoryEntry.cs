@@ -17,6 +17,9 @@ namespace BeazyBattles.Shared
         public string OpponentName { get; set; }
         public int RoundsFought { get; set; }
         public int WinnerDamageDealt { get; set; }
+        public int OpponentWinnings { get; set; }
+        public int AttackerWinnings { get; set; }
+
 
     }
 }

@@ -87,7 +87,9 @@ namespace BeazyBattles.Server.Controllers
                 OpponentId = battle.OpponentId,
                 YouWon = battle.WinnerId == user.Id,
                 AttackerName = battle.Attacker.Username,
+                AttackerWinnings = battle.AttackerWinnings,
                 OpponentName = battle.Opponent.Username,
+                OpponentWinnings = battle.OpponentWinnings,
                 RoundsFought = battle.RoundsFought,
                 WinnerDamageDealt = battle.WinnerDamage,
                 BattleDate = battle.BattleDate

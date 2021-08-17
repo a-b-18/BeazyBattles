@@ -9,5 +9,7 @@ namespace BeazyBattles.Server.Services
     public interface IUtilityService
     {
         Task<User> GetUser();
+        BattleReward RollReward();
+
     }
 }

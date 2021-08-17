@@ -36,37 +36,45 @@ namespace BeazyBattles.Server.Controllers
                 .ToListAsync();
 
             int bananaCost = 0;
+            bool noRevive = true;
+            string errorMessage = "";
+            int currentRevive;
+            int nextCheapestRevive = int.MaxValue;
             foreach (var userUnit in userUnits)
             {
                 if (userUnit.HitPoints <= 0)
                 {
-                    bananaCost += Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2));
-                }
-            }
+                    currentRevive = Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2));
 
-            if (user.Bananas < bananaCost)
-            {
-                return BadRequest($"Not enough bananas! You need {bananaCost} bananas to revive your army.");
-            }
 
-            bool armyStillAlive = true;
-            foreach (var userUnit in userUnits)
-            {
-                if (userUnit.HitPoints <= 0)
-                {
+                    if (user.Bananas < bananaCost + Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2)))
+                    {
+                        if (Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2)) < nextCheapestRevive)
+                            errorMessage = $"Not enough bananas! You need {Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2))}" +
+                                $" bananas to revive your {userUnit.Unit.Title}.";
+                            goto skipUnit;
+                        
+                    }
+
                     bananaCost += Convert.ToInt32(Math.Floor(userUnit.Unit.BananaCost * 0.2));
-                    armyStillAlive = false;
                     userUnit.HitPoints = new Random().Next(1, userUnit.Unit.HitPoints);
+                    noRevive = false;
                 }
+            skipUnit:;
             }
 
-            if (armyStillAlive)
-                return BadRequest("There is no need of revival. None of your army has died.");
-
-            await _context.SaveChangesAsync();
-
+            if (noRevive)
+            {
+                user.Bananas -= bananaCost;
+                user.Alive = true;
+                await _context.SaveChangesAsync();
+                if (errorMessage == "")
+                    errorMessage = "There is no need of revival. None of your army has died.";
+                return BadRequest(errorMessage);
+            }
             user.Bananas -= bananaCost;
             user.Alive = true;
+            await _context.SaveChangesAsync();
 
             return Ok($"Army revived successfully for {bananaCost} bananas!");
         }

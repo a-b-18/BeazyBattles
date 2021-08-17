@@ -16,6 +16,8 @@ namespace BeazyBattles.Shared
         public User Winner { get; set; }
         public int WinnerId { get; set; }
         public int WinnerDamage { get; set; }
+        public int AttackerWinnings { get; set; }
+        public int OpponentWinnings { get; set; }
         public int RoundsFought { get; set; }
         public DateTime BattleDate { get; set; } = DateTime.Now;
 

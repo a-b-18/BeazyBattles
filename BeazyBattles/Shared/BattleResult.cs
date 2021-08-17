@@ -10,7 +10,9 @@ namespace BeazyBattles.Shared
     {
         public IList<string> Log { get; set; } = new List<string>();
         public int AttackerDamageSum { get; set; }
+        public int AttackerRewardSum { get; set; }
         public int OpponentDamageSum { get; set; }
+        public int OpponentRewardSum { get; set; }
         public bool IsVictory { get; set; }
         public int RoundsFought { get; set; }
     }

@@ -52,8 +52,7 @@ namespace BeazyBattles.Server.Controllers
                 .Include(u => u.Unit)
                 .ToListAsync();
 
-            var attackerDamageSum = 0;
-            var opponentDamageSum = 0;
+            bool userAttacking;
 
             int currentRound = 0;
             while (attackerArmy.Count > 0 && opponentArmy.Count > 0)
@@ -61,20 +60,31 @@ namespace BeazyBattles.Server.Controllers
                 currentRound++;
 
                 if (currentRound % 2 != 0)
-                    attackerDamageSum += FightRound(attacker, opponent, attackerArmy, opponentArmy, result);
+                {
+                    userAttacking = true;
+                    //attackerDamageSum += FightRound(attacker, opponent, attackerArmy, opponentArmy, userAttacking, result);
+                    result = FightRound(attacker, opponent, attackerArmy, opponentArmy, userAttacking, result);
+                }
                 else
-                    opponentDamageSum += FightRound(opponent, attacker, opponentArmy, attackerArmy, result);
+                { 
+                    userAttacking = false;
+                    //opponentDamageSum += FightRound(opponent, attacker, opponentArmy, attackerArmy, userAttacking, result);
+                    result = FightRound(opponent, attacker, opponentArmy, attackerArmy, userAttacking, result);
+                }
             }
 
             result.IsVictory = opponentArmy.Count == 0;
             result.RoundsFought = currentRound;
 
+            //result.AttackerDamageSum = attackerDamageSum;
+            //result.OpponentDamageSum = opponentDamageSum;
+
             if (result.RoundsFought > 0)
-                await FinishFight(attacker, opponent, result, attackerDamageSum, opponentDamageSum);
+                await FinishFight(attacker, opponent, result);
         }
 
-        private int FightRound(User attacker, User opponent,
-            List<UserUnit> attackerArmy, List<UserUnit> opponentArmy, BattleResult result)
+        private BattleResult FightRound(User attacker, User opponent,
+            List<UserUnit> attackerArmy, List<UserUnit> opponentArmy, bool userAttacking, BattleResult result)
         {
             int randomAttackerIndex = new Random().Next(attackerArmy.Count);
             int randomOpponentIndex = new Random().Next(opponentArmy.Count);
@@ -86,50 +96,81 @@ namespace BeazyBattles.Server.Controllers
                 new Random().Next(randomAttacker.Unit.Attack) - new Random().Next(randomOpponent.Unit.Defense);
             if (damage < 0) damage = 0;
 
-            if (damage <= randomOpponent.HitPoints)
+            if (damage < randomOpponent.HitPoints)
             {
                 randomOpponent.HitPoints -= damage;
                 result.Log.Add(
                     $"{attacker.Username}'s {randomAttacker.Unit.Title} attacks " +
                     $"{opponent.Username}'s {randomOpponent.Unit.Title} with {damage} damage.");
-                return damage;
+                if (userAttacking)
+                {
+                    result.AttackerDamageSum += damage;
+                }
+                else
+                {
+                    result.OpponentDamageSum += damage;
+                }
+                
+                return result;
             }
             else
             {
                 damage = randomOpponent.HitPoints;
                 randomOpponent.HitPoints = 0;
                 opponentArmy.Remove(randomOpponent);
-                result.Log.Add(
-                    $"{attacker.Username}'s {randomAttacker.Unit.Title} kills " +
-                    $"{opponent.Username}'s {randomOpponent.Unit.Title}!");
-                return damage;
+                int deathToll = Convert.ToInt32(Math.Ceiling(randomOpponent.Unit.BananaCost * 0.2));
+                var battleReward = _utilityService.RollReward();
+
+                if (!userAttacking)
+                {
+                    result.OpponentRewardSum += Convert.ToInt32(Math.Floor(deathToll * battleReward.RewardMultiplier));
+                    result.OpponentDamageSum += randomOpponent.HitPoints;
+                    result.AttackerRewardSum += deathToll;
+                    result.Log.Add(
+                        $"{attacker.Username}'s {randomAttacker.Unit.Title} killed " +
+                        $"your {randomOpponent.Unit.Title}!");
+                    result.Log.Add($"You claim back the death toll of {deathToll} bananas.");
+                } 
+                else
+                {
+                    result.AttackerRewardSum += Convert.ToInt32(Math.Floor(deathToll * battleReward.RewardMultiplier));
+                    result.AttackerDamageSum += randomOpponent.HitPoints;
+                    result.OpponentRewardSum += deathToll;
+                    result.Log.Add(
+                        $"Your {randomAttacker.Unit.Title} killed " +
+                        $"{opponent.Username}'s {randomOpponent.Unit.Title}!");
+                    result.Log.Add($"You claim the {battleReward.RewardTitle} Reward of {deathToll * battleReward.RewardMultiplier} bananas.");
+                }
+
+                return result;
             }
         }
 
-        private async Task FinishFight(User attacker, User opponent, BattleResult result,
-            int attackerDamageSum, int opponentDamageSum)
+        private async Task FinishFight(User attacker, User opponent, BattleResult result)
         {
-            result.AttackerDamageSum = attackerDamageSum;
-            result.OpponentDamageSum = opponentDamageSum;
 
             attacker.Battles++;
             opponent.Battles++;
+
+            result.Log.Add($"The fight with {opponent.Username} ended with you claiming a total of {result.AttackerRewardSum} bananas.");
 
             if (result.IsVictory)
             {
                 attacker.Victories++;
                 opponent.Defeats++;
-                attacker.Bananas += attackerDamageSum * 2;
-                opponent.Bananas += attackerDamageSum * 3;
+                attacker.Bananas += result.AttackerRewardSum;
+                opponent.Bananas += result.OpponentRewardSum;
                 opponent.Alive = false;
+                attacker.Alive = true;
             }
             else
             {
                 attacker.Defeats++;
                 opponent.Victories++;
-                attacker.Bananas += opponentDamageSum * 3;
-                opponent.Bananas += opponentDamageSum * 2;
+                attacker.Bananas += result.AttackerRewardSum;
+                opponent.Bananas += result.OpponentRewardSum;
                 attacker.Alive = false;
+                opponent.Alive = true;
             }
 
             StoreBattleHistory(attacker, opponent, result);
@@ -143,7 +184,8 @@ namespace BeazyBattles.Server.Controllers
             battle.Attacker = attacker;
             battle.Opponent = opponent;
             battle.RoundsFought = result.RoundsFought;
-            battle.WinnerDamage = result.IsVictory ? result.AttackerDamageSum : result.OpponentDamageSum;
+            battle.AttackerWinnings = result.AttackerRewardSum;
+            battle.OpponentWinnings = result.OpponentRewardSum;
             battle.Winner = result.IsVictory ? attacker : opponent;
 
             _context.Battles.Add(battle);
